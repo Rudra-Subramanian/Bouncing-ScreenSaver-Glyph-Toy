@@ -11,6 +11,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlin.math.sin
 
+
 class AnimationDemoService : GlyphMatrixService("Animation-Demo") {
 
     private val backgroundScope = CoroutineScope(Dispatchers.IO)

@@ -31,32 +31,11 @@
             </intent-filter>
         </activity>
 
-        <!-- Basic Demo Service -->
-        <service
-            android:name=".demos.basic.BasicDemoService"
-            android:exported="true"
-            tools:ignore="ExportedService">
-            <intent-filter>
-                <action android:name="com.nothing.glyph.TOY" />
-            </intent-filter>
 
-            <meta-data
-                android:name="com.nothing.glyph.toy.name"
-                android:resource="@string/toy_name_basic" />
-            <meta-data
-                android:name="com.nothing.glyph.toy.image"
-                android:resource="@drawable/basic_thumbnail" />
-            <meta-data
-                android:name="com.nothing.glyph.toy.summary"
-                android:resource="@string/toy_summary_basic" />
-            <meta-data
-                android:name="com.nothing.glyph.toy.longpress"
-                android:value="1" />
-        </service>
 
-        <!-- Animation Demo Service -->
+        <!-- Animation Demo Service
         <service
-            android:name=".demos.animation.AnimationDemoService"
+            android:name=".demos.animation.AnimationDemoService" 
             android:exported="true"
             tools:ignore="ExportedService">
             <intent-filter>
@@ -76,10 +55,10 @@
                 android:name="com.nothing.glyph.toy.longpress"
                 android:value="1" />
         </service>
+         -->
 
-        <!-- Glyph Button Demo Service -->
         <service
-            android:name=".demos.glyphbutton.GlyphButtonDemoService"
+            android:name=".demos.animation.BouncingBallToy"
             android:exported="true"
             tools:ignore="ExportedService">
             <intent-filter>
@@ -88,17 +67,21 @@
 
             <meta-data
                 android:name="com.nothing.glyph.toy.name"
-                android:resource="@string/toy_name_glyph_button" />
+                android:resource="@string/toy_name_animation" />
             <meta-data
                 android:name="com.nothing.glyph.toy.image"
-                android:resource="@drawable/glyphbutton_numbnail" />
+                android:resource="@drawable/animation_thumbnail" />
             <meta-data
                 android:name="com.nothing.glyph.toy.summary"
-                android:resource="@string/toy_summary_glyph_button" />
+                android:resource="@string/toy_summary_animation" />
             <meta-data
                 android:name="com.nothing.glyph.toy.longpress"
                 android:value="1" />
+            <meta-data
+                android:name="com.nothing.glyph.toy.aod_support"
+                android:value="1"/>
         </service>
+
 
     </application>
 
