@@ -11,12 +11,38 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlin.math.sin
 
-class boundary(val width: Int, val height: Int){
+class boundary(var width: Int, var height: Int){
     var mygrid = Array(HEIGHT * WIDTH) { 0 }
+    var leftwall : Int = 7
+    var rightwall : Int = 17
+    var topwall : Int = 5
+    var bottomwall: Int = 19
+
+    init {
+        if (width < 3){ //making sure min value of 3
+            width = 3
+        }
+        else if (width % 2 == 0){ //making sure value is odd
+            width -= 1
+        }
+        if (height < 3){ // making sure min value of 3
+            height = 3
+        }
+        else if (height % 2 == 0){ //making sure value is odd
+            height -= 1
+        }
+
+        var leftwall = MID_POINT - ((width - 1) / 2)
+        var rightwall = MID_POINT + ((width - 1) / 2)
+        var topwall = MID_POINT - ((height - 1) / 2)
+        var bottomwall = MID_POINT + ((height - 1) / 2)
+
+        create_wall_grid()
+    }
     fun create_wall_grid(){
         for (i in 0..<WIDTH){
            for (j in  0..<HEIGHT){
-               if (((i > 17) or (i < 7)) or ((j > 19) or (j < 5))){
+               if (((i > rightwall) or (i < leftwall)) or ((j > bottomwall) or (j < topwall))){
                    mygrid[i * WIDTH + j] = 255 // max brightness
                    //setting 2d array value in 1d array
                }
@@ -34,27 +60,27 @@ class boundary(val width: Int, val height: Int){
 }
 
 class ball(var xspeed: Int, var yspeed: Int){
-    var xpos : Int = 12
-    var ypos : Int = 12
+    var xpos : Int = 15
+    var ypos : Int = 10
     var isRunning : Boolean = false
     var wall = boundary(8,9)
 
     fun check_bounce(nextframevalues: Array<Int>): Array<Int>{
         var corrected_next_frame = nextframevalues
-        if (nextframevalues[0] > 17){
-            corrected_next_frame[0] = 17
+        if (nextframevalues[0] > wall.rightwall){
+            corrected_next_frame[0] = wall.rightwall
             xspeed = -xspeed
         }
-        else if (nextframevalues[0] < 7){
-            corrected_next_frame[0] = 7
+        else if (nextframevalues[0] < wall.leftwall){
+            corrected_next_frame[0] = wall.leftwall
             xspeed = -xspeed
         }
-        if (nextframevalues[1] > 19){
-            corrected_next_frame[1] = 19
+        if (nextframevalues[1] > wall.bottomwall){
+            corrected_next_frame[1] =  wall.bottomwall
             yspeed = -yspeed
         }
-        else if (nextframevalues[1] < 5){
-            corrected_next_frame[1] = 5
+        else if (nextframevalues[1] <  wall.topwall){
+            corrected_next_frame[1] = wall.topwall
             yspeed = -yspeed
         }
         return corrected_next_frame
@@ -87,6 +113,7 @@ class BouncingBallToy : GlyphMatrixService("Bouncing-Ball") {
 
     override fun onTouchPointLongPress() {
         println("change something")
+
     }
 
 
@@ -97,13 +124,12 @@ class BouncingBallToy : GlyphMatrixService("Bouncing-Ball") {
     ) {
         backgroundScope.launch {
             while (isActive) {
-                newball.wall.create_wall_grid()
                 val array = generateNextAnimationFrame()
                 uiScope.launch {
                     glyphMatrixManager.setMatrixFrame(array)
                 }
                 // wait a bit
-                delay(30)
+                delay(60)
                 // next frame
                 frame++
                 if (frame >= WIDTH) {
